@@ -214,3 +214,4 @@ print("End Time: "+str(t))
 print("One: "+str(winsByOne))
 print("Two: "+str(winsByTwo))
 
+# want to add file writing and reading to store info from the randomized games...
