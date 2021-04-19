@@ -65,27 +65,9 @@ for gameNumber in range(100):
 
     while(playing and moveCount < 101):
 
-        # avoid printing
-        """
-        print("Move number " + str(moveCount))
-        if playerOne: print("Player One's move...")
-        else: print("Player Two's move...")
-
-        message = ""
-        if playerOne and messageCode == -2:
-            message = "Invalid input. Try again, Player One."
-        elif not(playerOne) and messageCode == -2:
-            message = "Invalid input. Try again, Player Two."
-        elif playerOne and messageCode == -1:
-            message = "You must choose a non-empty bin, Player One."
-        elif not(playerOne) and messageCode == -1:
-            message = "You must choose a non-empty bin, Player Two."
-        print("")
-        print(message)
-        print("")
-        """
         messageCode = 0
 
+        # this for loop is probably unnecessary...
         i = 0
         for element in binAmount:
             binAmount[i] = int(binAmount[i])
@@ -96,22 +78,6 @@ for gameNumber in range(100):
             i = i + 1
         # end of the for loop
 
-        """
-        if not(playerOne):
-            print("        a    b    c    d    e    f")
-        print("+----+----+----+----+----+----+----+----+")
-        print("|    | "+ binAmount[12] +" | "+ binAmount[11] 
-            +" | "+ binAmount[10] +" | "+ binAmount[9] 
-            +" | "+ binAmount[8] +" | "+ binAmount[7] +" |    |")
-        print("| "+ binAmount[13] +" |----+----+----+----+----+----| "+ binAmount[6] +" |")
-        print("|    | "+ binAmount[0] +" | "+ binAmount[1] 
-            +" | "+ binAmount[2] +" | "+ binAmount[3] 
-            +" | "+ binAmount[4] +" | "+ binAmount[5] +" |    |")
-        print("+----+----+----+----+----+----+----+----+")
-        if playerOne:
-            print("        f    e    d    c    b    a")
-        print("")
-        """
 
         #userInput = input("Enter a letter to choose a bin or enter 'q' to QUIT: ")
 
@@ -211,17 +177,20 @@ for gameNumber in range(100):
 
 
     # end of the while loop
-    print("")
-    print("Number of moves: " + str(moveCount))
-    print("The game is over!")
+    
+    #print("")
+    #print("Number of moves: " + str(moveCount))
+    #print("The game is over!")
     if int(binAmount[13]) < int(binAmount[6]):
-        print("Player One has won the game!")
+        #print("Player One has won the game!")
         winsByOne = winsByOne + 1
     elif int(binAmount[13]) > int(binAmount[6]):
-        print("Player Two has won the game!")
+        #print("Player Two has won the game!")
         winsByTwo = winsByTwo + 1
-    else:
-        print("The game ended in a tie.")
+    #else:
+        #print("The game ended in a tie.")
+
+        
 
     i = 0
     for element in binAmount:
