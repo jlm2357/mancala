@@ -46,7 +46,17 @@ winsByOne = 0
 winsByTwo = 0
 
 
-for gameNumber in range(100):
+for gameNumber in range(1):
+
+    moveArray = [4,4,4,4,4,4,0,4,4,4,4,4,4,0,"player",1,"move","a"]
+    gameArray = ["start"]
+    gameArray.append(moveArray)
+    k = 0
+    for item in gameArray:
+        print(gameArray[k])
+        k=k+1
+
+
     moveCount = 1
 
     binAmount = [4, 4, 4, 4, 4, 4, 0, 4, 4, 4, 4, 4, 4, 0]
@@ -172,7 +182,13 @@ for gameNumber in range(100):
                 binAmount[k] = 0
                 binAmount[k+7] = 0
 
+    # add the current MOVE into the gameArray
+    # then add a new moveArray to the gameArray
+        gameArray[moveCount][17] = userInput
+        print(gameArray[moveCount])
         moveCount = int(moveCount) + 1
+        gameArray.append(moveArray)
+
 
 
 
@@ -215,3 +231,10 @@ print("One: "+str(winsByOne))
 print("Two: "+str(winsByTwo))
 
 # want to add file writing and reading to store info from the randomized games...
+
+
+#f = open("/C/workspace/mancala/testfile.txt", "x")
+#f.write("this is a test... did I pass?")
+#f.close()
+
+#f = open("testfile.txt", "a")
