@@ -14,6 +14,7 @@ startTime = datetime.datetime.now()
 print(startTime)
 print("")
 
+
 # track system time??
 # maybe create a bigger wile loop starting here...
 startCommand = input("Enter 'y' to run a game. Enter 'q' to QUIT.")
@@ -45,16 +46,19 @@ print("")
 winsByOne = 0
 winsByTwo = 0
 
-
-for gameNumber in range(1):
+totalGames = 1
+for gameNumber in range(totalGames):
 
     moveArray = [4,4,4,4,4,4,0,4,4,4,4,4,4,0,"player",1,"move","a"]
     gameArray = ["start"]
     gameArray.append(moveArray)
     k = 0
     for item in gameArray:
-        print(gameArray[k])
+        #print(gameArray[k])
+        print("i am here")
         k=k+1
+
+    # need to figure out where to write into the gameRecord file???
 
 
     moveCount = 1
@@ -232,9 +236,13 @@ print("Two: "+str(winsByTwo))
 
 # want to add file writing and reading to store info from the randomized games...
 
+"""
+with open("c:/workspace/mancala/testfile.txt", "w") as f:
+    f.write("testing, testing\n")
+    f.write("onto the next line...")
+    f.write("and on and on.")
 
-#f = open("/C/workspace/mancala/testfile.txt", "x")
-#f.write("this is a test... did I pass?")
-#f.close()
+if f.closed:
+    print("Case closed.")
 
-#f = open("testfile.txt", "a")
+"""
