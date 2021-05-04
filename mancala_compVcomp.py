@@ -1,22 +1,12 @@
 import random
 import datetime
 
-# testing GitHub connection
-# this is feature 1 branch
-
-
 #starting menu
 print("")
 print("Welcome to Mancala!")
 print("")
 
-startTime = datetime.datetime.now()
-print(startTime)
-print("")
-
-
-# track system time??
-# maybe create a bigger wile loop starting here...
+# maybe create a bigger while loop starting here...
 startCommand = input("Enter 'y' to run a game. Enter 'q' to QUIT.")
 
 if startCommand == "y":
@@ -49,7 +39,7 @@ winsByTwo = 0
 totalGames = 1
 for gameNumber in range(totalGames):
 
-    moveArray = [4,4,4,4,4,4,0,4,4,4,4,4,4,0,"player",1,"move","a"]
+    moveArray = [4,4,4,4,4,4,0,4,4,4,4,4,4,0,"player",0,"move","a","winner",0]
     gameArray = ["start"]
     gameArray.append(moveArray)
     k = 0
@@ -129,21 +119,54 @@ for gameNumber in range(totalGames):
             chosenBin = -2
             messageCode = -2  # invalid input
 
-
+        # +----+----+----+----+----+----+----+----+
+        # |    | 12 | 11 | 10 |  9 |  8 |  7 |    |
+        # | 13 |----+----+----+----+----+----|  6 |
+        # |    |  0 |  1 |  2 |  3 |  4 |  5 |    |
+        # +----+----+----+----+----+----+----+----+
+        
 
         if int(chosenBin) >= 0:
+            # assign the chosen bin amount to the 'giveawayPile'
             giveawayPile = binAmount[chosenBin]
-            binAmount[chosenBin] = 0
+
+            # set up a signal if the giveawayPile is empty
             if int(giveawayPile) <= 0:
                 messageCode = -1  # empty bin was chosen
 
+            # record the move if a NON-Empty bin is chosen
+            else:
+                # add the current MOVE into the gameArray
+                # then add a new moveArray to the gameArray
+                gameArray[moveCount][17] = userInput
+                if (playerOne):
+                    gameArray[moveCount][15] = 1
+                else:
+                    gameArray[moveCount][15] = 2    
+                j = 0
+                for element in binAmount:
+                    gameArray[moveCount][j]=int(binAmount[j])
+                    j = j + 1
+                print(gameArray[moveCount])
+                moveCount = int(moveCount) + 1
+                gameArray.append(moveArray)
+
+            # empty the chosenBin
+            binAmount[chosenBin] = 0
+            
+
+        # set the 'recipient' index to be the one next to the chosenBin
         recipient = chosenBin + 1
+        
+        # this WHILE loop gives away stones one by one until they are done
         while(int(giveawayPile) > 0):
+            # adjust the recipient index if needed when a mancala is the recipient
             if(playerOne and int(recipient) == 13):
                 recipient = 0
             if(not(playerOne) and int(recipient) == 6):
                 recipient = 7
 
+            # add one stone to the recipient and take one away from the giveawayPile
             binAmount[recipient] = int(binAmount[recipient]) + 1
             giveawayPile = int(giveawayPile) - 1
             
@@ -154,15 +177,19 @@ for gameNumber in range(totalGames):
                 if int(recipient) > 13:
                     recipient = 0
 
+        # stay with Player One if the last stone was placed in player One's mancala
         if(playerOne and int(lastRecipient) == 6):
             playerOne = True
+        # if the last stone falls in an empty bin on Player One's side
         elif(playerOne and int(binAmount[lastRecipient]) == 1 and int(lastRecipient) < 6):
             binAmount[6] = int(binAmount[6]) + int(binAmount[lastRecipient]) + int(binAmount[12 - int(lastRecipient)])
             binAmount[lastRecipient] = 0
             binAmount[12 - int(lastRecipient)] = 0
             playerOne = not(playerOne)
+        # stay with Player Two if the last stone was placed in Player Two's mancala
         elif(not(playerOne) and int(lastRecipient) == 13):
             playerOne = False
+        # if the last stone falls in an empty bin on Player Two's side
         elif(not(playerOne) and int(binAmount[lastRecipient]) == 1 and int(lastRecipient) > 6):
             binAmount[13] = int(binAmount[13]) + int(binAmount[lastRecipient]) + int(binAmount[12 - int(lastRecipient)])
             binAmount[lastRecipient] = 0
@@ -170,6 +197,8 @@ for gameNumber in range(totalGames):
             playerOne = not(playerOne)
         elif(int(messageCode) >= 0):
             playerOne = not(playerOne)
+
+
 
         # checking for the end of the game
         sideOne = 0
@@ -186,12 +215,6 @@ for gameNumber in range(totalGames):
                 binAmount[k] = 0
                 binAmount[k+7] = 0
 
-    # add the current MOVE into the gameArray
-    # then add a new moveArray to the gameArray
-        gameArray[moveCount][17] = userInput
-        print(gameArray[moveCount])
-        moveCount = int(moveCount) + 1
-        gameArray.append(moveArray)
 
 
 
