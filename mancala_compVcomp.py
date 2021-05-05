@@ -1,23 +1,6 @@
 import random
 import datetime
 
-#starting menu
-print("")
-print("Welcome to Mancala!")
-print("")
-
-# maybe create a bigger while loop starting here...
-startCommand = input("Enter 'y' to run a game. Enter 'q' to QUIT.")
-
-if startCommand == "y":
-    playing = True
-    print("the game has begun...")
-elif startCommand == "q":
-    playing = False
-    print("You have QUIT the game.")
-else:
-    playing = False
-    print("Unexpected entry.  The game is over.")
 
 startTime = datetime.datetime.now()
 print(startTime)
@@ -36,17 +19,18 @@ print("")
 winsByOne = 0
 winsByTwo = 0
 
-totalGames = 1
+moveRecordData = 18
+# the format for the move record data points is:
+# [<move#>,<b0>,<b1>,<b2>,<b3>,<b4>,<b5>,<b6>,<b7>,<b8>,<b9>,<b10>,<b11>,<b12>,<b13>,<player>,<move>,<winner>]
+
+totalGames = 2
+maxMoves = 101
+
 for gameNumber in range(totalGames):
 
-    moveArray = [4,4,4,4,4,4,0,4,4,4,4,4,4,0,"player",0,"move","a","winner",0]
-    gameArray = ["start"]
-    gameArray.append(moveArray)
-    k = 0
-    for item in gameArray:
-        #print(gameArray[k])
-        print("i am here")
-        k=k+1
+    # the gameArray will hold a 'move record' in each row
+    gameArray = [[0 for x in range(moveRecordData)] for y in range(maxMoves)]
+
 
     # need to figure out where to write into the gameRecord file???
 
@@ -67,23 +51,10 @@ for gameNumber in range(totalGames):
 
     chosenBin = -1
 
-    while(playing and moveCount < 101):
+    while(playing and moveCount < maxMoves):
 
         messageCode = 0
 
-        # this for loop is probably unnecessary...
-        i = 0
-        for element in binAmount:
-            binAmount[i] = int(binAmount[i])
-            if int(binAmount[i]) < 10:
-                binAmount[i] = " " + str(binAmount[i])
-            else:
-                binAmount[i] = str(binAmount[i])
-            i = i + 1
-        # end of the for loop
-
-
-        #userInput = input("Enter a letter to choose a bin or enter 'q' to QUIT: ")
 
         # choosing a bin at random
         userInput = random.choice(["a","b","c","d","e","f"])
@@ -119,6 +90,8 @@ for gameNumber in range(totalGames):
             chosenBin = -2
             messageCode = -2  # invalid input
 
+
+        #game board bin layout
         # +----+----+----+----+----+----+----+----+
         # |    | 12 | 11 | 10 |  9 |  8 |  7 |    |
         # | 13 |----+----+----+----+----+----|  6 |
@@ -137,19 +110,19 @@ for gameNumber in range(totalGames):
             # record the move if a NON-Empty bin is chosen
             else:
                 # add the current MOVE into the gameArray
-                # then add a new moveArray to the gameArray
-                gameArray[moveCount][17] = userInput
+                gameArray[moveCount-1][0] = moveCount
+                gameArray[moveCount-1][16] = userInput
                 if (playerOne):
-                    gameArray[moveCount][15] = 1
+                    gameArray[moveCount-1][15] = 1
                 else:
-                    gameArray[moveCount][15] = 2    
-                j = 0
+                    gameArray[moveCount-1][15] = 2    
+                j = 1
                 for element in binAmount:
-                    gameArray[moveCount][j]=int(binAmount[j])
+                    gameArray[moveCount-1][j]=int(binAmount[j-1])
                     j = j + 1
-                print(gameArray[moveCount])
+                #print(gameArray[moveCount-1])
                 moveCount = int(moveCount) + 1
-                gameArray.append(moveArray)
+                #gameArray.append(moveArray)
 
             # empty the chosenBin
             binAmount[chosenBin] = 0
@@ -226,22 +199,28 @@ for gameNumber in range(totalGames):
     #print("The game is over!")
     if int(binAmount[13]) < int(binAmount[6]):
         #print("Player One has won the game!")
+        j = 0
+        for element in range(moveCount):
+            #print(gameArray[j])
+            gameArray[j][17] = int(1)
+            j = j + 1
         winsByOne = winsByOne + 1
     elif int(binAmount[13]) > int(binAmount[6]):
         #print("Player Two has won the game!")
+        j = 0
+        for element in range(moveCount):
+            #print(gameArray[j])
+            gameArray[j][17] = int(2)
+            j = j + 1
         winsByTwo = winsByTwo + 1
     #else:
         #print("The game ended in a tie.")
 
-        
-
+    
+    # PRINT THE GAME
     i = 0
-    for element in binAmount:
-        binAmount[i] = int(binAmount[i])
-        if int(binAmount[i]) < 10:
-            binAmount[i] = " " + str(binAmount[i])
-        else:
-            binAmount[i] = str(binAmount[i])
+    for element in range(moveCount-1):
+        print(gameArray[i])
         i = i + 1
     # end of the for loop
 
