@@ -2,6 +2,16 @@ import random
 import datetime
 
 
+class Move:
+    move_number = 0
+    # this LIST will store info about the current choice and the three previous moves
+    move = ["z", "z", "z", "z"]
+    wins = 1
+    losses = 0
+
+class BestMoveData:
+    moveNumber = [0 for x in range(100)]
+
 startTime = datetime.datetime.now()
 print(startTime)
 print("")
@@ -248,3 +258,10 @@ if f.closed:
     print("Case closed.")
 
 """
+
+
+#compile data from games
+# make a list to store move values...
+# look at each game and store the move wins and loses...
+
+
